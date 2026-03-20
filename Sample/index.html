@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Untuk Kamu 💖</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- Custom styles (animations & utilities not covered by Tailwind) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cormorant: ['"Cormorant Garamond"', 'serif'],
+            nunito: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            rose:      '#e8a0b4',
+            'deep-rose': '#c4617a',
+            blush:     '#f7e8ee',
+            cream:     '#fdf6f0',
+            warm:      '#f0d9c8',
+            'text-dark': '#3a2535',
+            'text-mid':  '#7a5060',
+            'text-light':'#b08898',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="font-nunito bg-cream text-text-dark overflow-x-hidden">
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bgm" loop>
+    <!-- Ganti src dengan URL lagu favorit kalian -->
+    <source src="https://cdn.pixabay.com/audio/2024/02/16/audio_86e18beaa6.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- TOMBOL MUSIK (fixed) -->
+  <button id="music-btn"
+    class="fixed top-4 right-4 z-50 w-11 h-11 rounded-full
+           bg-white/85 backdrop-blur-md border border-rose/30
+           flex items-center justify-center text-lg
+           shadow-lg transition-transform active:scale-90
+           opacity-0 pointer-events-none"
+    title="Toggle music">🎵</button>
+
+  <!-- CONTAINER PETALS (animasi jatuh) -->
+  <div id="petals-container" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO SECTION
+  ════════════════════════════════════════ -->
+  <section id="hero"
+    class="relative min-h-screen flex flex-col items-center justify-center
+           overflow-hidden text-center px-6 py-10"
+    style="background: linear-gradient(160deg, #fdf0f5 0%, #fce8e0 50%, #f9dfe8 100%);">
+
+    <!-- Decorative background circles -->
+    <div class="hero-bg-circles absolute inset-0 pointer-events-none overflow-hidden">
+      <span class="absolute rounded-full bg-rose opacity-20 animate-float"
+            style="width:300px;height:300px;top:-80px;left:-80px;animation-delay:0s;"></span>
+      <span class="absolute rounded-full bg-warm opacity-20 animate-float"
+            style="width:200px;height:200px;bottom:-50px;right:-50px;animation-delay:2s;"></span>
+      <span class="absolute rounded-full bg-deep-rose opacity-20 animate-float"
+            style="width:150px;height:150px;top:40%;left:-40px;animation-delay:4s;"></span>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 flex flex-col items-center">
+      <span class="text-6xl mb-5 animate-pulse-heart block">💌</span>
+
+      <h1 class="font-cormorant italic font-light text-text-dark leading-tight mb-3
+                 text-4xl sm:text-5xl">
+        Hai sayang…<br />ada sesuatu<br />buat kamu
+      </h1>
+
+      <p class="text-base text-text-mid font-light tracking-wide mb-11">
+        Dibuat dengan sepenuh hati 💖
+      </p>
+
+      <button id="btn-open"
+        class="animate-btn-glow text-white font-semibold tracking-widest
+               px-11 py-4 rounded-full cursor-pointer border-0 active:scale-95 transition-transform"
+        style="background: linear-gradient(135deg, #c4617a, #e07090);
+               box-shadow: 0 8px 30px rgba(196,97,122,0.35);">
+        Buka Sekarang
+      </button>
+    </div>
+
+    <!-- Scroll hint -->
+    <div id="scroll-hint"
+      class="absolute bottom-7 left-1/2 -translate-x-1/2
+             flex flex-col items-center gap-1.5 opacity-0 transition-opacity duration-700">
+      <span class="text-[0.7rem] text-text-mid tracking-widest uppercase">Scroll</span>
+      <div class="text-rose text-lg animate-bounce">↓</div>
+    </div>
+  </section>
+
+
+  <!-- MAIN CONTENT (tersembunyi sampai tombol diklik) -->
+  <div id="main-content" class="hidden">
+
+
+    <!-- ═══════════════════════════════════════
+         INTRO SECTION
+    ════════════════════════════════════════ -->
+    <section id="intro"
+      class="section-fade relative min-h-screen flex flex-col items-center justify-center
+             px-7 py-16 text-center overflow-hidden"
+      style="background: linear-gradient(160deg, #fff5f8 0%, #fdf6f0 100%);">
+
+      <!-- Floating hearts container -->
+      <div id="fh-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+      <div class="relative z-10 max-w-sm w-full">
+        <p class="text-[0.72rem] font-semibold tracking-[0.22em] uppercase text-deep-rose mb-2">
+          Untuk kamu
+        </p>
+
+        <!-- Typing text -->
+        <p id="typing-text"
+          class="font-cormorant italic font-light text-text-dark leading-relaxed
+                 text-3xl sm:text-4xl max-w-xs mx-auto mb-8 min-h-[2.5em]">
+          <span class="typing-cursor"></span>
+        </p>
+
+        <!-- Divider -->
+        <div class="intro-divider mx-auto mb-7"></div>
+
+        <p class="text-sm text-text-light font-light leading-loose max-w-xs mx-auto">
+          Ada banyak hal yang ingin aku sampaikan, tapi rasanya
+          kata-kata pun tidak cukup untuk menggambarkan betapa
+          berartinya kamu bagi aku.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         GALLERY SECTION
+    ════════════════════════════════════════ -->
+    <section id="gallery"
+      class="section-fade min-h-screen flex flex-col items-center justify-center
+             py-16 overflow-hidden"
+      style="background: linear-gradient(180deg, #fdf2f7 0%, #fce8e0 100%);">
+
+      <p class="text-[0.72rem] font-semibold tracking-[0.22em] uppercase text-deep-rose mb-2 px-6">
+        Kenangan Kita
+      </p>
+      <h2 class="font-cormorant italic font-light text-text-dark text-center px-6 mb-9
+                 text-4xl sm:text-5xl">
+        Momen yang tak<br />terlupakan
+      </h2>
+
+      <!-- Slider wrapper -->
+      <div class="gallery-wrapper w-full overflow-hidden relative">
+        <div id="gallery-track"
+          class="flex gap-4 px-6 transition-transform duration-400 ease-out will-change-transform"
+          style="transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+
+          <!-- Slide 1 -->
+          <div class="gallery-slide flex-shrink-0 bg-white rounded-3xl overflow-hidden select-none
+                      shadow-[0_10px_40px_rgba(196,97,122,0.12)]"
+               style="min-width: calc(100vw - 72px); max-width: 360px;">
+            <div class="img-wrap w-full flex items-center justify-center"
+                 style="aspect-ratio:4/5; background:linear-gradient(135deg,#fce4ec,#f8bbd0,#f48fb1);">
+              <!-- Ganti dengan: <img src="foto1.jpg" class="w-full h-full object-cover" alt=""> -->
+              <span class="text-7xl opacity-40">📸</span>
+            </div>
+            <div class="px-5 pt-4 pb-6">
+              <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-rose mb-1.5">Kenangan 01</p>
+              <p class="font-cormorant italic text-text-dark text-lg leading-snug">
+                "Ini pertama kali kita ketemu, dan aku langsung tau kamu spesial."
+              </p>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="gallery-slide flex-shrink-0 bg-white rounded-3xl overflow-hidden select-none
+                      shadow-[0_10px_40px_rgba(196,97,122,0.12)]"
+               style="min-width: calc(100vw - 72px); max-width: 360px;">
+            <div class="img-wrap w-full flex items-center justify-center"
+                 style="aspect-ratio:4/5; background:linear-gradient(135deg,#ffe0ec,#ffb8d0,#ff85b0);">
+              <span class="text-7xl opacity-40">🌅</span>
+            </div>
+            <div class="px-5 pt-4 pb-6">
+              <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-rose mb-1.5">Kenangan 02</p>
+              <p class="font-cormorant italic text-text-dark text-lg leading-snug">
+                "Hari yang ga bakal pernah aku lupain seumur hidup."
+              </p>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="gallery-slide flex-shrink-0 bg-white rounded-3xl overflow-hidden select-none
+                      shadow-[0_10px_40px_rgba(196,97,122,0.12)]"
+               style="min-width: calc(100vw - 72px); max-width: 360px;">
+            <div class="img-wrap w-full flex items-center justify-center"
+                 style="aspect-ratio:4/5; background:linear-gradient(135deg,#fce8e0,#f8c8b8,#f4a898);">
+              <span class="text-7xl opacity-40">☕</span>
+            </div>
+            <div class="px-5 pt-4 pb-6">
+              <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-rose mb-1.5">Kenangan 03</p>
+              <p class="font-cormorant italic text-text-dark text-lg leading-snug">
+                "Ngobrol biasa, tapi rasanya waktu berhenti sebentar."
+              </p>
+            </div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="gallery-slide flex-shrink-0 bg-white rounded-3xl overflow-hidden select-none
+                      shadow-[0_10px_40px_rgba(196,97,122,0.12)]"
+               style="min-width: calc(100vw - 72px); max-width: 360px;">
+            <div class="img-wrap w-full flex items-center justify-center"
+                 style="aspect-ratio:4/5; background:linear-gradient(135deg,#e8daf8,#d0b8f0,#b898e0);">
+              <span class="text-7xl opacity-40">🌙</span>
+            </div>
+            <div class="px-5 pt-4 pb-6">
+              <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-rose mb-1.5">Kenangan 04</p>
+              <p class="font-cormorant italic text-text-dark text-lg leading-snug">
+                "Malam itu, aku sadar betapa beruntungnya aku punya kamu."
+              </p>
+            </div>
+          </div>
+
+          <!-- Slide 5 -->
+          <div class="gallery-slide flex-shrink-0 bg-white rounded-3xl overflow-hidden select-none
+                      shadow-[0_10px_40px_rgba(196,97,122,0.12)]"
+               style="min-width: calc(100vw - 72px); max-width: 360px;">
+            <div class="img-wrap w-full flex items-center justify-center"
+                 style="aspect-ratio:4/5; background:linear-gradient(135deg,#e8f4e0,#c8e8b8,#a8d898);">
+              <span class="text-7xl opacity-40">🌸</span>
+            </div>
+            <div class="px-5 pt-4 pb-6">
+              <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-rose mb-1.5">Kenangan 05</p>
+              <p class="font-cormorant italic text-text-dark text-lg leading-snug">
+                "Setiap momen sama kamu, selalu jadi favorit aku."
+              </p>
+            </div>
+          </div>
+
+        </div><!-- end gallery-track -->
+      </div>
+
+      <!-- Dots indicator -->
+      <div id="gallery-dots" class="flex justify-center gap-2 mt-6 px-6"></div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         QUOTES SECTION
+    ════════════════════════════════════════ -->
+    <section id="quotes"
+      class="section-fade relative min-h-screen flex flex-col items-center justify-center
+             px-7 py-16 text-center overflow-hidden"
+      style="background: linear-gradient(160deg, #3a2535 0%, #2a1520 100%);">
+
+      <!-- Radial glow -->
+      <div class="absolute inset-0 pointer-events-none"
+        style="background: radial-gradient(ellipse at 30% 30%, rgba(232,160,180,0.15) 0%, transparent 60%),
+                           radial-gradient(ellipse at 70% 80%, rgba(196,97,122,0.12) 0%, transparent 60%);">
+      </div>
+
+      <div class="relative z-10 max-w-sm w-full">
+        <!-- Big quote mark -->
+        <span class="font-cormorant text-rose/30 block leading-none mb-6"
+              style="font-size:100px;">"</span>
+
+        <!-- Quote slider -->
+        <div class="overflow-hidden w-full">
+          <div id="quote-track"
+            class="flex transition-transform duration-500 will-change-transform"
+            style="transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+
+            <div class="quote-item min-w-full px-2 text-center">
+              <p class="font-cormorant italic font-light text-white leading-relaxed mb-5
+                         text-2xl sm:text-3xl">
+                Aku ga butuh yang sempurna, cukup kamu.
+              </p>
+              <span class="text-[0.8rem] tracking-[0.15em] text-rose font-semibold uppercase">— Untukmu</span>
+            </div>
+
+            <div class="quote-item min-w-full px-2 text-center">
+              <p class="font-cormorant italic font-light text-white leading-relaxed mb-5
+                         text-2xl sm:text-3xl">
+                Di setiap versi hidupku, aku selalu ingin kamu ada.
+              </p>
+              <span class="text-[0.8rem] tracking-[0.15em] text-rose font-semibold uppercase">— Untukmu</span>
+            </div>
+
+            <div class="quote-item min-w-full px-2 text-center">
+              <p class="font-cormorant italic font-light text-white leading-relaxed mb-5
+                         text-2xl sm:text-3xl">
+                Kamu bukan hanya seseorang yang aku suka, tapi seseorang yang aku pilih setiap harinya.
+              </p>
+              <span class="text-[0.8rem] tracking-[0.15em] text-rose font-semibold uppercase">— Untukmu</span>
+            </div>
+
+            <div class="quote-item min-w-full px-2 text-center">
+              <p class="font-cormorant italic font-light text-white leading-relaxed mb-5
+                         text-2xl sm:text-3xl">
+                Ketika aku bersamamu, rasanya seperti pulang ke rumah.
+              </p>
+              <span class="text-[0.8rem] tracking-[0.15em] text-rose font-semibold uppercase">— Untukmu</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Nav dots -->
+        <div id="quote-nav" class="flex justify-center gap-2 mt-7"></div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         SPECIAL MESSAGE SECTION
+    ════════════════════════════════════════ -->
+    <section id="message"
+      class="section-fade relative min-h-screen flex flex-col items-center justify-center
+             px-6 py-16 text-center overflow-hidden"
+      style="background: linear-gradient(170deg, #fff8fb 0%, #fce8e8 60%, #fdf0e8 100%);">
+
+      <!-- Floating hearts bg -->
+      <div id="msg-hearts" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+      <!-- Message card -->
+      <div class="relative z-10 max-w-sm w-full rounded-3xl px-7 py-9 text-left
+                  shadow-[0_20px_60px_rgba(196,97,122,0.1)]"
+           style="background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);">
+
+        <span id="msg-date"
+          class="block text-[0.72rem] font-semibold tracking-[0.2em] uppercase text-rose mb-4">
+          —
+        </span>
+
+        <h2 class="font-cormorant italic font-light text-text-dark leading-tight mb-5
+                   text-3xl sm:text-4xl">
+          Untuk kamu,<br />yang paling berharga
+        </h2>
+
+        <!-- Divider -->
+        <div class="w-10 h-0.5 rounded mb-5"
+             style="background: linear-gradient(90deg, #e8a0b4, #c4617a);"></div>
+
+        <div class="text-[0.95rem] text-text-mid font-light leading-loose space-y-3.5">
+          <p>Sayang, aku nulis ini bukan karena harus — tapi karena aku benar-benar ingin kamu tau betapa pentingnya kamu di hidup aku.</p>
+          <p>Dari pertama kali kita ketemu sampai sekarang, setiap momen bersamamu selalu jadi yang paling aku tunggu-tunggu.</p>
+          <p>Makasih udah jadi orang yang selalu ada, yang selalu ngerti, dan yang selalu bikin hari-hariku jadi lebih berwarna.</p>
+          <p>Aku ga tau apa yang ada di depan kita, tapi satu hal yang aku yakini — aku mau menjalaninya semua bareng kamu. ❤️</p>
+          <p>Selamat ulang tahun ya sayang… semoga kita selalu bareng, semoga kamu selalu bahagia, dan semoga aku selalu bisa jadi alasan senyummu.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         CLOSING SECTION
+    ════════════════════════════════════════ -->
+    <section id="closing"
+      class="section-fade relative min-h-screen flex flex-col items-center justify-center
+             px-7 py-16 text-center overflow-hidden"
+      style="background: linear-gradient(160deg, #3a2535 0%, #2a1520 100%);">
+
+      <!-- Radial glow -->
+      <div class="absolute inset-0 pointer-events-none"
+        style="background: radial-gradient(circle at 20% 20%, rgba(232,160,180,0.2) 0%, transparent 50%),
+                           radial-gradient(circle at 80% 80%, rgba(196,97,122,0.15) 0%, transparent 50%);">
+      </div>
+
+      <div class="relative z-10 flex flex-col items-center">
+        <span class="text-8xl block mb-4 animate-heartbeat">❤️</span>
+
+        <h2 class="font-cormorant italic font-light text-white leading-tight mb-3
+                   text-5xl sm:text-6xl">
+          I love you
+        </h2>
+
+        <p class="text-[0.9rem] text-white/45 tracking-widest font-light mb-11">
+          selalu &amp; selamanya
+        </p>
+
+        <button id="btn-replay"
+          class="border border-rose/50 text-rose bg-transparent
+                 px-9 py-3.5 rounded-full text-sm font-semibold tracking-widest
+                 cursor-pointer transition-colors duration-300
+                 hover:bg-rose/10 hover:border-rose active:scale-95">
+          ↺ Ulangi lagi
+        </button>
+      </div>
+    </section>
+
+
+  </div><!-- end #main-content -->
+
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>

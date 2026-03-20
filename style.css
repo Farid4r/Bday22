@@ -1,0 +1,170 @@
+/* ============================================================
+   style.css — Custom animations & utilities
+   (hal-hal yang tidak bisa ditangani Tailwind CDN)
+   ============================================================ */
+
+/* ── Root Variables ── */
+:root {
+  --rose:       #e8a0b4;
+  --deep-rose:  #c4617a;
+  --cream:      #fdf6f0;
+  --warm:       #f0d9c8;
+  --text-dark:  #3a2535;
+  --text-mid:   #7a5060;
+  --text-light: #b08898;
+}
+
+/* ── Global Reset ── */
+*  { -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+
+/* ── Section Fade-in (dikelola JS dengan IntersectionObserver) ── */
+.section-fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.section-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Keyframes ── */
+
+/* Float — lingkaran bg hero */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-20px) scale(1.04); }
+}
+.animate-float { animation: float 8s ease-in-out infinite; }
+
+/* Pulse heart — envelope hero */
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.12); }
+}
+.animate-pulse-heart { animation: pulse-heart 2.5s ease-in-out infinite; }
+
+/* Heartbeat — closing section */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.15); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.1); }
+  70%       { transform: scale(1); }
+}
+.animate-heartbeat { animation: heartbeat 1.8s ease-in-out infinite; }
+
+/* Button glow — hero CTA */
+@keyframes btn-glow {
+  0%, 100% { box-shadow: 0 8px 30px rgba(196,97,122,0.35); }
+  50%       { box-shadow: 0 8px 44px rgba(196,97,122,0.55); }
+}
+.animate-btn-glow { animation: btn-glow 3s ease-in-out infinite; }
+
+/* Typing cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--deep-rose);
+  margin-left: 2px;
+  animation: blink 0.8s step-end infinite;
+  vertical-align: middle;
+}
+
+/* Intro divider gradient */
+.intro-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rose), transparent);
+}
+
+/* Rising hearts (Intro section) */
+@keyframes rise-heart {
+  0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+  10%  { opacity: 0.6; }
+  80%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
+}
+.fh {
+  position: absolute;
+  opacity: 0;
+  animation: rise-heart 6s ease-in infinite;
+}
+
+/* Floating hearts (Message section) */
+@keyframes drift {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.8); }
+  20%  { opacity: 0.5; }
+  80%  { opacity: 0.2; }
+  100% { opacity: 0; transform: translateY(-80px) rotate(20deg) scale(1.1); }
+}
+.msg-heart {
+  position: absolute;
+  opacity: 0;
+  font-size: 22px;
+  animation: drift 7s ease-in-out infinite;
+}
+
+/* Falling petals */
+@keyframes petal-fall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+.petal {
+  position: fixed;
+  pointer-events: none;
+  font-size: 16px;
+  z-index: 51;
+  animation: petal-fall linear;
+  opacity: 0;
+}
+
+/* ── Gallery dot styles ── */
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--warm);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dot.active {
+  background: var(--deep-rose);
+  width: 22px;
+  border-radius: 4px;
+}
+
+/* ── Quote dot styles ── */
+.quote-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.quote-dot.active {
+  background: var(--rose);
+  width: 20px;
+  border-radius: 3px;
+}
+
+/* ── Music button visibility toggle ── */
+#music-btn.show {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+/* ── Scroll hint visibility ── */
+#scroll-hint.show { opacity: 0.5 !important; }
+
+/* ── Gallery slide min-width (responsive) ── */
+.gallery-slide {
+  min-width: calc(100vw - 72px);
+}
