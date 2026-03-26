@@ -117,9 +117,9 @@ bgm.addEventListener('pause', () => {
 const typingEl = document.getElementById('typing-text');
 
 const phrases = [
-  'Terima kasih sudah hadir di hidup aku…',
-  'Kamu adalah hal terbaik yang pernah terjadi padaku.',
-  'Setiap hari bersamamu adalah hadiah terbesar.',
+  'Selamat ulang tahun sayangkuh',
+  'Semoga di tahun ini kamu dikasih rezeki yang melimmpah.',
+  'Selalu bersyukur buat kehadiran kamu di hidup aku  <3',
 ];
 
 let phraseIndex = 0;
